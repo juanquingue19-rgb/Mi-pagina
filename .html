@@ -1,0 +1,168 @@
+<!doctype html>
+
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Video — Flores Amarillas</title>
+  <style>
+    :root{--bg:#0b1020;--overlay:rgba(0,0,0,0.25);--accent:#ffd54a;--heart:#ff4a6e}
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    .stage{
+      position:relative;display:flex;align-items:center;justify-content:center;
+      height:100vh;background:radial-gradient(circle at 20% 10%, #12203a 0%, #071225 40%, #04101a 100%);
+      overflow:hidden;color:white
+    }.stage::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.3));pointer-events:none}
+
+.card{position:relative;z-index:10;padding:2.2rem 2.6rem;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));backdrop-filter: blur(6px);text-align:center;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+h1{margin:0;font-size:clamp(22px,4vw,44px);line-height:1.05;color:var(--accent);text-shadow:0 6px 30px rgba(255,213,74,0.08)}
+p{margin-top:.6rem;margin-bottom:0;font-size:clamp(14px,2.2vw,18px);opacity:.95}
+
+.signature{margin-top:1rem;font-style:italic;font-size:clamp(16px,2.5vw,22px);color:var(--accent);text-shadow:0 4px 16px rgba(255,213,74,0.15);text-align:right;overflow:hidden;white-space:nowrap;border-right:.15em solid var(--accent);width:0;animation: typing 3s steps(20,end) forwards, blink 1s step-end infinite}
+
+@keyframes typing {from { width: 0 } to { width: 100% }}
+@keyframes blink {0%,100% { border-color: var(--accent) } 50% { border-color: #ffffff }}
+
+.heart-shape{
+  position:absolute;top:10%;left:50%;transform:translateX(-50%);
+  width:200px;height:180px;z-index:15;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:1.5rem;font-weight:bold;text-shadow:0 0 10px rgba(0,0,0,0.5);
+  animation: heartbeat 1.5s infinite;
+}
+.heart-shape::before,
+.heart-shape::after{
+  content:"";position:absolute;top:0;width:100px;height:160px;border-radius:100px 100px 0 0;background:var(--heart)}
+.heart-shape::before{left:100px;transform:rotate(-45deg);transform-origin:0 100%}
+.heart-shape::after{left:0;transform:rotate(45deg);transform-origin:100% 100%}
+.heart-text{position:relative;z-index:2;color:#fff;font-size:1.4rem;text-align:center}
+
+@keyframes heartbeat {
+  0%, 20%, 40%, 60%, 80%, 100% { transform: translateX(-50%) scale(1); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-50%) scale(1.15); }
+}
+
+.flowers{position:absolute;inset:0;pointer-events:none;z-index:5}
+.flower{position:absolute;will-change:transform,opacity;opacity:0}
+
+@keyframes floatUp{
+  0%{transform:translateY(20vh) scale(0.6) rotate(-10deg);opacity:0}
+  10%{opacity:1}
+  50%{transform:translateY(-60vh) scale(1) rotate(10deg)}
+  100%{transform:translateY(-130vh) scale(0.6) rotate(40deg);opacity:0}
+}
+
+@keyframes sway{
+  0%{transform:translateX(0)}
+  50%{transform:translateX(18px)}
+  100%{transform:translateX(0)}
+}
+
+.f-small{width:60px}
+.f-medium{width:110px}
+.f-large{width:170px}
+
+.controls{position:fixed;left:16px;bottom:16px;z-index:20}
+.btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);padding:.4rem .7rem;border-radius:10px;color:white;backdrop-filter: blur(4px);cursor:pointer}
+.btn:active{transform:translateY(1px)}
+
+@media (max-width:560px){.card{padding:1.2rem 1.4rem;border-radius:12px} }
+
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="flowers" id="flowers"></div><div class="heart-shape">
+  <div class="heart-text">Te amo<br>Carmen</div>
+</div>
+
+<div class="card" role="contentinfo">
+  <h1 id="message">Para mi amor — Te amo ❤️</h1>
+  <p id="sub">Eres mi sol en los días nublados. — Con cariño, tu novio.</p>
+  <div class="signature">Atentamente,<br>Juan Q</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="pauseBtn">Pausar</button>
+  <button class="btn" id="playBtn" style="display:none;margin-left:8px">Reproducir</button>
+  <button class="btn" id="editBtn" style="margin-left:8px">Editar texto</button>
+</div>
+
+  </div>  <template id="flowerTpl">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="g" cx="30%" cy="25%">
+          <stop offset="0%" stop-color="#fff9cc" />
+          <stop offset="40%" stop-color="#fff08a" />
+          <stop offset="100%" stop-color="#ffd54a" />
+        </radialGradient>
+      </defs>
+      <g transform="translate(60,60)">
+        <circle r="12" fill="url(#g)" />
+        <g fill="#ffd54a" stroke="#f6c542" stroke-width="1">
+          <ellipse rx="10" ry="22" transform="rotate(0) translate(0,-32)"/>
+          <ellipse rx="10" ry="22" transform="rotate(45) translate(0,-32)"/>
+          <ellipse rx="10" ry="22" transform="rotate(90) translate(0,-32)"/>
+          <ellipse rx="10" ry="22" transform="rotate(135) translate(0,-32)"/>
+          <ellipse rx="10" ry="22" transform="rotate(180) translate(0,-32)"/>
+          <ellipse rx="10" ry="22" transform="rotate(225) translate(0,-32)"/>
+          <ellipse rx="10" ry="22" transform="rotate(270) translate(0,-32)"/>
+          <ellipse rx="10" ry="22" transform="rotate(315) translate(0,-32)"/>
+        </g>
+      </g>
+    </svg>
+  </template>  <script>
+    const flowersEl = document.getElementById('flowers');
+    const tpl = document.getElementById('flowerTpl').content;
+
+    const COUNT = 18;
+    for(let i=0;i<COUNT;i++){
+      const node = tpl.cloneNode(true);
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flower ' + (Math.random()>0.6? 'f-large' : Math.random()>0.5? 'f-medium' : 'f-small');
+
+      const left = Math.random()*110 - 5;
+      const bottom = Math.random()*30 - 20;
+      wrapper.style.left = left + '%';
+      wrapper.style.bottom = bottom + 'vh';
+
+      const dur = 12 + Math.random()*16;
+      const delay = -Math.random()*dur;
+
+      wrapper.style.animation = `floatUp ${dur}s linear ${delay}s infinite, sway ${2 + Math.random()*3}s ease-in-out ${delay}s infinite`;
+      wrapper.style.opacity = Math.random()*0.6 + 0.3;
+
+      wrapper.appendChild(node);
+      flowersEl.appendChild(wrapper);
+    }
+
+    const pauseBtn = document.getElementById('pauseBtn');
+    const playBtn = document.getElementById('playBtn');
+    let paused = false;
+    pauseBtn.addEventListener('click', ()=>{
+      flowersEl.querySelectorAll('.flower').forEach(f=> f.style.animationPlayState = 'paused');
+      pauseBtn.style.display='none';playBtn.style.display='inline-block';paused=true;
+    });
+    playBtn.addEventListener('click', ()=>{
+      flowersEl.querySelectorAll('.flower').forEach(f=> f.style.animationPlayState = 'running');
+      playBtn.style.display='none';pauseBtn.style.display='inline-block';paused=false;
+    });
+
+    document.getElementById('editBtn').addEventListener('click', ()=>{
+      const msgEl = document.getElementById('message');
+      const subEl = document.getElementById('sub');
+      const newMsg = prompt('Escribe el texto principal para tu novia:', msgEl.textContent);
+      if(newMsg !== null) msgEl.textContent = newMsg;
+      const newSub = prompt('Escribe el texto secundario (opcional):', subEl.textContent);
+      if(newSub !== null) subEl.innerHTML = newSub;
+    });
+
+    document.addEventListener('keydown', (e)=>{
+      if(e.code === 'Space'){
+        e.preventDefault(); if(paused) playBtn.click(); else pauseBtn.click();
+      }
+    });
+
+    console.log('Abre este archivo en el navegador. Edita el texto con el botón "Editar texto".');
+  </script></body>
+</html>
