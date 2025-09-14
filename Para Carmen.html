@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girasoles para mi Amor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .sunflowers {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            margin-bottom: 30px;
+        }
+        
+        .flower {
+            position: absolute;
+            animation: sway 6s ease-in-out infinite;
+        }
+        
+        .flower:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .flower:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .flower:nth-child(3) {
+            animation-delay: 1s;
+        }
+        
+        .center {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #5C4033;
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        
+        .petal {
+            position: absolute;
+            width: 40px;
+            height: 100px;
+            background: linear-gradient(to bottom, #FFD700, #FF8C00);
+            border-radius: 20px 20px 0 0;
+            transform-origin: bottom center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        
+        .stem {
+            position: absolute;
+            width: 12px;
+            height: 180px;
+            background: linear-gradient(to bottom, #228B22, #006400);
+            top: 150px;
+            border-radius: 5px;
+            z-index: 1;
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 30px;
+            background: #228B22;
+            border-radius: 0 50% 50% 0;
+            transform-origin: left center;
+            z-index: 1;
+        }
+        
+        .message {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            z-index: 4;
+            animation: fadeIn 5s ease-in-out;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #8B4513;
+            margin-bottom: 15px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        p {
+            color: #5C4033;
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .signature {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #8B4513;
+            font-size: 1.5rem;
+            text-align: right;
+            font-style: normal;
+            letter-spacing: 2px;
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float 8s linear infinite;
+            color: #ff4d4d;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: floatBubble 10s infinite ease-in-out;
+        }
+        
+        @keyframes floatBubble {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-20px) scale(1.05);
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sunflowers">
+            <div class="flower" id="flower1">
+                <div class="center"></div>
+                <div class="stem"></div>
+                <div class="leaf" style="top: 180px; left: -10px; transform: rotate(70deg);"></div>
+                <div class="leaf" style="top: 220px; right: -10px; transform: rotate(-70deg) scaleX(-1);"></div>
+            </div>
+            <div class="flower" id="flower2" style="left: 80px; top: -30px; transform: scale(0.8);">
+                <div class="center"></div>
+                <div class="stem"></div>
+                <div class="leaf" style="top: 180px; left: -10px; transform: rotate(70deg);"></div>
+            </div>
+            <div class="flower" id="flower3" style="right: 80px; top: 20px; transform: scale(0.7);">
+                <div class="center"></div>
+                <div class="stem"></div>
+                <div class="leaf" style="top: 180px; right: -10px; transform: rotate(-70deg) scaleX(-1);"></div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <h1>Para mi Bella Novia</h1>
+            <p>"Así como los girasoles siguen al sol, mi corazón te sigue a ti. Eres la luz de mi vida."</p>
+            <p class="signature">Con todo mi amor, Juan</p>
+        </div>
+        
+        <div class="hearts" id="hearts"></div>
+        <div id="bubbles"></div>
+    </div>
+
+    <script>
+        // Crear pétalos para cada flor
+        function createPetals(flowerId, petalCount) {
+            const flower = document.getElementById(flowerId);
+            const center = flower.querySelector('.center');
+            
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                
+                // Posicionar los pétalos en círculo
+                const angle = (i * (360 / petalCount)) * (Math.PI / 180);
+                const petalDistance = 30; // Distancia desde el centro
+                
+                petal.style.transform = `rotate(${i * (360 / petalCount)}deg) translate(0, -${petalDistance}px)`;
+                
+                flower.insertBefore(petal, center.nextSibling);
+            }
+        }
+        
+        // Crear pétalos para las tres flores
+        createPetals('flower1', 16);
+        createPetals('flower2', 14);
+        createPetals('flower3', 12);
+        
+        // Crear corazones flotantes
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartCount = 30;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤';
+                
+                // Posición y animación aleatoria
+                const left = Math.random() * 100;
+                const animationDuration = 5 + Math.random() * 5;
+                const delay = Math.random() * 5;
+                
+                heart.style.left = `${left}%`;
+                heart.style.animationDuration = `${animationDuration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Crear burbujas de fondo
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('bubbles');
+            const bubbleCount = 15;
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                // Tamaño y posición aleatoria
+                const size = 20 + Math.random() * 80;
+                const left = Math.random() * 100;
+                const top = 60 + Math.random() * 30;
+                const delay = Math.random() * 5;
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${left}%`;
+                bubble.style.top = `${top}%`;
+                bubble.style.animationDelay = `${delay}s`;
+                
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+        
+        createHearts();
+        createBubbles();
+        
+        // Efecto de movimiento con el mouse
+        document.addEventListener('mousemove', (e) => {
+            const flowers = document.querySelectorAll('.flower');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            flowers.forEach((flower, index) => {
+                flower.style.transform = `translate(${(x - 0.5) * 20}px, ${(y - 0.5) * 20}px) rotate(${(x - 0.5) * 10}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>
